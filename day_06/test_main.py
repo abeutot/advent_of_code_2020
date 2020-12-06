@@ -1,4 +1,6 @@
 import string
+import operator
+from functools import reduce
 
 
 def sum_of_group(str_):
@@ -6,11 +8,7 @@ def sum_of_group(str_):
 
 
 def excl_sum_of_group(str_):
-    excl_set = set(string.ascii_lowercase)
-    for g in str_.split('\n'):
-        excl_set &= set(g)
-
-    return len(excl_set)
+    return len(reduce(operator.and_, map(set, str_.split('\n')), set(string.ascii_lowercase)))
 
 
 def split_groups(str_):
