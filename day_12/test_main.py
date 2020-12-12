@@ -1,6 +1,3 @@
-from collections import namedtuple
-
-
 input_test = """F10
 N3
 F7
