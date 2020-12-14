@@ -72,7 +72,7 @@ def sum_v2(input_):
             memory[int(''.join(addr), 2)] = v
             continue
 
-        for r in itertools.product(*([['0', '1']] * len(indexes))):
+        for r in itertools.product('01', repeat=len(indexes)):
             for i, b in zip(indexes, r):
                 addr[i] = b
             memory[int(''.join(addr), 2)] = v
