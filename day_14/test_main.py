@@ -25,10 +25,9 @@ def sum_(input_):
 
         assert len(current_mask) == len(v)
 
-        v = [vv if m == 'X' else m for vv, m in zip(reversed(v), reversed(current_mask))]
-        v = ''.join(reversed(v))
+        v = [vv if m == 'X' else m for vv, m in zip(v, current_mask)]
 
-        memory[addr] = int(v, 2)
+        memory[addr] = int(''.join(v), 2)
 
     return sum(memory.values())
 
