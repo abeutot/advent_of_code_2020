@@ -1,6 +1,5 @@
 import operator
 from enum import Enum
-from functools import reduce
 from collections import namedtuple
 
 
@@ -18,7 +17,7 @@ class Direction(Enum):
     UP = 'up'
 
 
-Position = namedtuple('Position', ['horizontal', 'depth'])
+Position = namedtuple('Position', ['horizontal', 'depth', 'aim'], defaults=[0, 0, 0])
 Instruction = namedtuple('Instruction', ['direction', 'offset'])
 
 
@@ -55,13 +54,37 @@ def compute_final_position(instructions):
             current = Position(current.horizontal, current.depth - o)
             continue
 
-    return reduce(operator.mul, current)
+    return current.horizontal * current.depth
 
 
 def test_compute_final_position():
     assert compute_final_position(parse(test_input)) == 150
 
 
+def compute_final_position_2(instructions):
+    current = Position()
+
+    for d, o in instructions:
+        if d == Direction.FORWARD:
+            current = Position(current.horizontal + o, current.depth + current.aim * o, current.aim)
+            continue
+
+        if d == Direction.DOWN:
+            current = Position(current.horizontal, current.depth, current.aim + o)
+            continue
+
+        if d == Direction.UP:
+            current = Position(current.horizontal, current.depth, current.aim - o)
+            continue
+
+    return current.horizontal * current.depth
+
+
+def test_compute_final_position_2():
+    assert compute_final_position_2(parse(test_input)) == 900
+
+
 if __name__ == '__main__':
     instructions = parse(open('input.txt').read())
     print('part1:', compute_final_position(instructions))
+    print('part2:', compute_final_position_2(instructions))
